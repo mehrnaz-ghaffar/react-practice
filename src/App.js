@@ -1,63 +1,49 @@
 import { useState } from "react";
 
-const messages = [
-  "Learn React ⚛️",
-  "Apply for jobs 💼",
-  "Invest your new income 🤑",
-];
-
 export default function App() {
-  // To change the current state we need to use a callback func in the setState func and pass in
-  // the current state as an argument, if we don't it might not use the current and changed state
-
   const [step, setStep] = useState(1);
-  const [isOpen, setIsOpen] = useState(true);
+  const [count, setCount] = useState(0);
+  const date = new Date();
+  date.setDate(date.getDate() + count);
 
-  function handlePrevious() {
-    if (step > 1) {
-      setStep((currentStep) => currentStep - 1);
-      setStep((currentStep) => currentStep - 1);
-    }
+  function handleAddStep() {
+    setStep((currStep) => currStep + 1);
   }
 
-  function handleNext() {
-    if (step < 3) setStep((currentStep) => currentStep + 1);
+  function handleDecStep() {
+    setStep((currStep) => currStep - 1);
+  }
+
+  function handleAddCount() {
+    setCount((currCount) => currCount + step);
+  }
+  function handleDecCount() {
+    setCount((currCount) => currCount - step);
   }
 
   return (
     <>
-      <button className="close" onClick={() => setIsOpen((is) => !is)}>
-        &times;
-      </button>
+      <div>
+        <button onClick={handleDecStep}>-</button>
+        <span>Step: {step}</span>
+        <button onClick={handleAddStep}>+</button>
+      </div>
+      <div>
+        <button onClick={handleDecCount}>-</button>
+        <span>Count: {count}</span>
+        <button onClick={handleAddCount}>+</button>
+      </div>
 
-      {isOpen && (
-        <div className="steps">
-          <div className="numbers">
-            <div className={step >= 1 ? "active" : ""}>1</div>
-            <div className={step >= 2 ? "active" : ""}>2</div>
-            <div className={step >= 3 ? "active" : ""}>3</div>
-          </div>
-
-          <p className="message">
-            Step {step}: {messages[step - 1]}
-          </p>
-
-          <div className="buttons">
-            <button
-              onClick={handlePrevious}
-              style={{ backgroundColor: "#7950f2", color: "#fff" }}
-            >
-              Previous
-            </button>
-            <button
-              onClick={handleNext}
-              style={{ backgroundColor: "#7950f2", color: "#fff" }}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
+      <div>
+        <span>
+          {count === 0
+            ? "today is "
+            : count >= 1
+            ? `${count} days from now is `
+            : ` ${Math.abs(count)} days ago was `}
+        </span>
+        <span>{date.toDateString()}</span>
+      </div>
     </>
   );
 }
