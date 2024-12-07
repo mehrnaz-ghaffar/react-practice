@@ -1,49 +1,34 @@
-import { useState } from "react";
+function Logo() {
+  return <h1> Far Away </h1>;
+}
+
+function Form() {
+  return (
+    <div className="add-form">
+      <h3>What do you need for your trip</h3>
+    </div>
+  );
+}
+
+function PackingList() {
+  return <div className="list">List</div>;
+}
+
+function Stats() {
+  return (
+    <footer className="stats">
+      <em>You have X on your list, and you already packed X (X%)</em>
+    </footer>
+  );
+}
 
 export default function App() {
-  const [step, setStep] = useState(1);
-  const [count, setCount] = useState(0);
-  const date = new Date();
-  date.setDate(date.getDate() + count);
-
-  function handleAddStep() {
-    setStep((currStep) => currStep + 1);
-  }
-
-  function handleDecStep() {
-    setStep((currStep) => currStep - 1);
-  }
-
-  function handleAddCount() {
-    setCount((currCount) => currCount + step);
-  }
-  function handleDecCount() {
-    setCount((currCount) => currCount - step);
-  }
-
   return (
-    <>
-      <div>
-        <button onClick={handleDecStep}>-</button>
-        <span>Step: {step}</span>
-        <button onClick={handleAddStep}>+</button>
-      </div>
-      <div>
-        <button onClick={handleDecCount}>-</button>
-        <span>Count: {count}</span>
-        <button onClick={handleAddCount}>+</button>
-      </div>
-
-      <div>
-        <span>
-          {count === 0
-            ? "today is "
-            : count >= 1
-            ? `${count} days from now is `
-            : ` ${Math.abs(count)} days ago was `}
-        </span>
-        <span>{date.toDateString()}</span>
-      </div>
-    </>
+    <div className="app">
+      <Logo />
+      <Form />
+      <PackingList />
+      <Stats />
+    </div>
   );
 }
