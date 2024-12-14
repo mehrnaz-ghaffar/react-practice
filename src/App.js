@@ -6,7 +6,7 @@ export default function App() {
   const date = new Date();
   date.setDate(date.getDate() + count);
 
-  function handleAddStep() {
+  function handleStep() {
     setStep((currStep) => currStep + 1);
   }
 
@@ -20,20 +20,38 @@ export default function App() {
   function handleDecCount() {
     setCount((currCount) => currCount - step);
   }
+  function resetCounter() {
+    setCount(0);
+    setStep(1);
+  }
 
   return (
     <>
       <div>
+        <input
+          value={step}
+          type="range"
+          min={0}
+          max={10}
+          onChange={(e) => setStep(Number(e.target.value))}
+        />
+        step {step}
+        {/* 
         <button onClick={handleDecStep}>-</button>
         <span>Step: {step}</span>
-        <button onClick={handleAddStep}>+</button>
+        <button onClick={handleAddStep}>+</button> */}
       </div>
       <div>
         <button onClick={handleDecCount}>-</button>
-        <span>Count: {count}</span>
+        <input
+          value={count}
+          type="text"
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
         <button onClick={handleAddCount}>+</button>
-      </div>
 
+        <span>Count: {count}</span>
+      </div>
       <div>
         <span>
           {count === 0
@@ -44,6 +62,9 @@ export default function App() {
         </span>
         <span>{date.toDateString()}</span>
       </div>
+      {count !== 0 || step !== 1 ? (
+        <button onClick={resetCounter}>reset</button>
+      ) : null}
     </>
   );
 }
