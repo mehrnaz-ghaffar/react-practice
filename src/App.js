@@ -6,14 +6,6 @@ export default function App() {
   const date = new Date();
   date.setDate(date.getDate() + count);
 
-  function handleStep() {
-    setStep((currStep) => currStep + 1);
-  }
-
-  function handleDecStep() {
-    setStep((currStep) => currStep - 1);
-  }
-
   function handleAddCount() {
     setCount((currCount) => currCount + step);
   }
