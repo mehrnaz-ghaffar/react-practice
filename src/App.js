@@ -1,15 +1,10 @@
 import { useState } from "react";
 
-const initialItems = [
-  { id: 1, description: "Passports", quantity: 2, packed: false },
-  { id: 2, description: "Socks", quantity: 12, packed: true },
-];
-
 function Logo() {
-  return <h1> Far Away </h1>;
+  return <h1> 🏝️ Far Away 🧳 </h1>;
 }
 
-function Form() {
+function Form({ onAddItem }) {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
 
@@ -20,6 +15,7 @@ function Form() {
     const newItem = { quantity, description, isPacked: false, id: Date.now() };
 
     console.log("newItemmmmmm", newItem);
+    onAddItem(newItem);
 
     setDescription("");
     setQuantity(1);
@@ -27,7 +23,7 @@ function Form() {
 
   return (
     <form className="add-form" onSubmit={handleSubmit}>
-      <h3>What do you need for your trip</h3>
+      <h3>What do you need for your 😍 trip</h3>
       <select
         value={quantity}
         onChange={(e) => setQuantity(Number(e.target.value))}
@@ -50,25 +46,25 @@ function Form() {
   );
 }
 
-function PackingList() {
+function PackingList({ items, onDeleteItem }) {
   return (
     <div className="list">
       <ul>
-        {initialItems.map((item) => (
-          <Item item={item} key={item.id} />
+        {items.map((item) => (
+          <Item item={item} key={item.id} onDeleteItem={onDeleteItem} />
         ))}
       </ul>
     </div>
   );
 }
 
-function Item({ item }) {
+function Item({ item, onDeleteItem }) {
   return (
     <li>
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}
       </span>
-      <button>X</button>
+      <button onClick={() => onDeleteItem(item.id)}>❌</button>
     </li>
   );
 }
@@ -82,11 +78,22 @@ function Stats() {
 }
 
 export default function App() {
+  const [items, setItems] = useState([]);
+
+  function handleAddItems(newItem) {
+    setItems((currItems) => [...currItems, newItem]);
+  }
+
+  function handleDeleteItems(id) {
+    console.log("iddddd", id);
+    setItems((currItems) => currItems.filter((item) => item.id !== id));
+  }
+
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
+      <Form onAddItem={handleAddItems} />
+      <PackingList items={items} onDeleteItem={handleDeleteItems} />
       <Stats />
     </div>
   );
