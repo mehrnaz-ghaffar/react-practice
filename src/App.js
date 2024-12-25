@@ -16,7 +16,6 @@ export default function App() {
   function handlePrevious() {
     if (step > 1) {
       setStep((currentStep) => currentStep - 1);
-      setStep((currentStep) => currentStep - 1);
     }
   }
 
