@@ -51,7 +51,6 @@ export default function App() {
           if (data.Response === "False") throw new Error("Movie not found");
           setMovies(data.Search);
         } catch (error) {
-          console.error("🚀 ~ getMovies ~ error:", error.message);
           if (error.name !== "AbortError") {
             setError(error.message);
           }
@@ -66,8 +65,8 @@ export default function App() {
         return;
       }
 
+      handleCloseMovie();
       getMovies();
-      setError("");
 
       return function () {
         controller.abort();
@@ -267,6 +266,23 @@ function MovieDetails({ watched, selectedId, onCloseMovie, onAddWatched }) {
     },
 
     [title]
+  );
+
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+        }
+      }
+
+      document.addEventListener("keydown", callback);
+
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [onCloseMovie]
   );
 
   function handleAddWatched() {
